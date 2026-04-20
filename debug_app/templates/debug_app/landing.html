@@ -1,0 +1,103 @@
+{% extends "debug_app/base.html" %}
+{% block title %}Debug Insight - Never solve the same bug twice{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero-section fade-in-up">
+    <div class="hero-content">
+
+        <h1 class="hero-heading">
+            Never solve the <span class="hero-accent">same bug</span> twice
+        </h1>
+
+        <p class="hero-sub">
+            Save errors, track fixes, and build your personal debugging system.
+        </p>
+
+        <div class="hero-cta">
+            {% if user.is_authenticated %}
+                <a href="{% url 'home' %}" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> Go to Dashboard
+                </a>
+            {% else %}
+                <a href="{% url 'register' %}" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Get Started
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+
+
+<!-- FEATURES -->
+<section class="features-section fade-in-up">
+    <div class="features-grid">
+
+        <div class="feature-card">
+            <i class="fas fa-database"></i>
+            <h3>Save Errors</h3>
+            <p>Store real bugs and their solutions for future use.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-search"></i>
+            <h3>Instant Search</h3>
+            <p>Find solutions instantly using keywords or tags.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-tags"></i>
+            <h3>Organize with Tags</h3>
+            <p>Group errors with tags like Django, API, React.</p>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- TERMINAL DEMO -->
+<section class="terminal-section fade-in-up">
+    <div class="terminal-card">
+
+        <div class="terminal-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="terminal-title">debug-session.sh</span>
+        </div>
+
+        <pre class="terminal-body">
+Error: Cannot resolve dependency 'react-dom/client'
+
+Fix:
+rm -rf node_modules package-lock.json
+npm install
+
+✔ Issue resolved
+        </pre>
+
+    </div>
+</section>
+
+
+<!-- CTA -->
+<section class="cta-section fade-in-up">
+    <h2>Start building your debugging knowledge base</h2>
+
+    {% if not user.is_authenticated %}
+        <a href="{% url 'register' %}" class="btn btn-primary">
+            Get Started Free
+        </a>
+    {% else %}
+        <a href="{% url 'home' %}" class="btn btn-primary">
+            Go to Dashboard
+        </a>
+    {% endif %}
+</section>
+
+{% endblock %}

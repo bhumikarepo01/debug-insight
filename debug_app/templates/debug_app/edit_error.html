@@ -1,0 +1,101 @@
+{% extends "debug_app/base.html" %}
+{% block title %}Edit Error — Debug Insight{% endblock %}
+
+{% block content %}
+
+<div class="form-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="form-sidebar">
+
+        <!-- HEADER -->
+        <div class="sidebar-header">
+            <h2>Edit Error</h2>
+            <p>Update your debugging entry</p>
+        </div>
+
+        <!-- NAV -->
+        <a href="{% url 'home' %}" class="btn btn-outline">
+            ← Back
+        </a>
+
+        <!-- DANGER ZONE -->
+        <div class="danger-zone">
+            <h4>Danger Zone</h4>
+
+            <form method="POST" action="{% url 'delete_error' form.instance.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">
+                    Delete Error
+                </button>
+            </form>
+        </div>
+
+    </aside>
+
+    <!-- FORM -->
+    <main class="form-main">
+
+        <form method="POST" class="form-card">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="form-error">
+                    Please fix the errors below.
+                </div>
+            {% endif %}
+
+            <!-- SECTION: BASIC -->
+            <div class="form-section">
+                <h3>Basic Info</h3>
+
+                <div class="form-group">
+                    <label class="form-label">Error Title</label>
+                    {{ form.error_title }}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    {{ form.error_description }}
+                </div>
+            </div>
+
+            <!-- SECTION: SOLUTION -->
+            <div class="form-section">
+                <h3>Solution</h3>
+
+                <div class="form-group">
+                    <label class="form-label">Fix / Solution</label>
+                    {{ form.solution }}
+                </div>
+            </div>
+
+            <!-- SECTION: TAGS -->
+            <div class="form-section">
+                <h3>Tags</h3>
+
+                <div class="form-group">
+                    <label class="form-label">Tags</label>
+                    {{ form.tags }}
+                    <small class="text-muted">
+                        Example: django, api, react
+                    </small>
+                </div>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="form-actions">
+                <a href="{% url 'home' %}" class="btn btn-outline">Cancel</a>
+
+                <button type="submit" class="btn btn-primary">
+                    Update Error
+                </button>
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+{% endblock %}

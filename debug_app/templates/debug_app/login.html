@@ -1,0 +1,224 @@
+{% extends "debug_app/base.html" %}
+{% block title %}Login — Debug Insight{% endblock %}
+
+{% block content %}
+
+<style>
+    .auth-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: calc(100vh - 140px);
+        max-width: 960px;
+        margin: 0 auto;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+    }
+
+    /* LEFT */
+    .auth-panel {
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .auth-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.8rem;
+        color: var(--text-3);
+        margin-bottom: 2rem;
+    }
+
+    .auth-brand-icon {
+        width: 30px;
+        height: 30px;
+        background: var(--accent);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.8rem;
+    }
+
+    .auth-header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 6px;
+    }
+
+    .auth-header p {
+        font-size: 0.9rem;
+        color: var(--text-2);
+    }
+
+    /* FORM */
+    .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+
+    .field-group label {
+        font-size: 0.75rem;
+        color: var(--text-3);
+        text-transform: uppercase;
+    }
+
+    .input-wrap {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-3);
+        font-size: 0.8rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 10px 10px 35px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        outline: none;
+    }
+
+    .form-control:focus {
+        border-color: var(--accent);
+    }
+
+    .btn.w-100 {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .auth-footer-link {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 0.85rem;
+    }
+
+    .auth-footer-link a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    /* RIGHT PANEL */
+    .auth-deco {
+        background: #f1f5f9;
+        border-left: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .deco-content {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .deco-feature {
+        background: white;
+        border: 1px solid var(--border);
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .deco-feature i {
+        color: var(--accent);
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+        .auth-wrapper {
+            grid-template-columns: 1fr;
+        }
+        .auth-deco {
+            display: none;
+        }
+    }
+</style>
+
+<div class="auth-wrapper">
+
+    <!-- LEFT -->
+    <div class="auth-panel">
+
+        <div class="auth-brand">
+            <div class="auth-brand-icon"><i class="fas fa-bug"></i></div>
+            <span>Debug Insight</span>
+        </div>
+
+        <div class="auth-header">
+            <h1>Welcome back</h1>
+            <p>Login to continue</p>
+        </div>
+
+{% if error %}
+        <div style="background: rgba(239,68,68,0.1); border: 1px solid var(--danger); color: var(--danger); padding: 1rem; border-radius: var(--radius); margin-bottom: 1.5rem;">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+
+            <div class="field-group">
+                <label>Username</label>
+                <div class="input-wrap">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label>Password</label>
+                <div class="input-wrap">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+            </div>
+
+<button type="submit" class="btn btn-primary" style="width: 100%;">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
+
+        <div class="auth-footer-link">
+            Not registered?
+            <a href="{% url 'register' %}">Create account</a>
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="auth-deco">
+        <div class="deco-content">
+            <div class="deco-feature">
+                <i class="fas fa-bolt"></i> Fast error logging
+            </div>
+            <div class="deco-feature">
+                <i class="fas fa-search"></i> Smart search
+            </div>
+            <div class="deco-feature">
+                <i class="fas fa-lightbulb"></i> Save solutions
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

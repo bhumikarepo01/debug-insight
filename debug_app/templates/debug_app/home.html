@@ -1,0 +1,123 @@
+{% extends "debug_app/base.html" %}
+{% load static %}
+{% block title %}Dashboard - Debug Insight{% endblock %}
+
+{% block content %}
+
+<!-- HEADER -->
+<div class="dash-header">
+    <div>
+        <h1>Your Errors</h1>
+        <span class="count-badge" >{{ errors|length }} Total Error Added</span>
+    </div>
+    <br><br>
+    <a href="{% url 'add_error' %}" class="btn btn-primary">
+        + New Error
+    </a>
+</div>
+
+<!-- SEARCH -->
+<div class="search-section">
+    <form method="GET" class="search-form">
+        <input type="text" name="q"
+               class="search-input"
+               placeholder="Search errors, solutions..."
+               value="{{ request.GET.q|default:'' }}">
+
+        <button class="btn btn-outline" type="submit">
+            Search
+        </button>
+    </form>
+</div>
+
+<!-- ACTIVE FILTER -->
+{% if request.GET.tag %}
+<div class="active-filter">
+    Showing results for <strong>#{{ request.GET.tag }}</strong>
+    <a href="{% url 'home' %}">Clear</a>
+</div>
+{% endif %}
+
+<!-- GRID -->
+{% if errors %}
+<div class="errors-grid">
+
+{% for error in errors %}
+<div class="error-card">
+
+    <!-- TITLE -->
+    <h3>{{ error.error_title }}</h3>
+
+    <!-- DESCRIPTION -->
+    <p>{{ error.error_description }}</p>
+
+    <!-- SOLUTION -->
+    {% if error.solution %}
+    <div class="solution-box">
+        <strong>Solution</strong>
+        <pre>{{ error.solution }}</pre>
+    </div>
+    {% endif %}
+
+    <!-- TAGS -->
+    <div class="tag-list">
+        {% for tag in error.tags.all %}
+            <a href="?tag={{ tag.name }}"
+               class="tag-chip {% if request.GET.tag == tag.name %}active{% endif %}">
+                #{{ tag.name }}
+            </a>
+        {% empty %}
+            <span class="tag-chip">No tags</span>
+        {% endfor %}
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+
+        <button class="icon-btn edit-toggle">
+            <i class="fas fa-pen"></i>
+        </button>
+
+        <form method="POST" action="{% url 'delete_error' error.id %}">
+            {% csrf_token %}
+            <button class="icon-btn danger">
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
+
+    </div>
+
+    <!-- EDIT MODE -->
+    <form method="POST" action="{% url 'edit_error' error.id %}" class="edit-mode">
+        {% csrf_token %}
+
+        <input type="text" name="error_title" value="{{ error.error_title }}">
+        <textarea name="error_description">{{ error.error_description }}</textarea>
+        <textarea name="solution">{{ error.solution }}</textarea>
+
+        <div class="edit-actions">
+            <button type="button" class="btn cancel-edit">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+
+</div>
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<!-- EMPTY STATE -->
+<div class="empty-state">
+    <h3>No errors found</h3>
+    <p>Start by adding your first debugging error</p>
+
+    <a href="{% url 'add_error' %}" class="btn btn-primary">
+        + Add Error
+    </a>
+</div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "debug_app/base.html" %}
+{% block title %}Add Error - Debug Insight{% endblock %}
+
+{% block content %}
+
+<div class="form-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="form-sidebar">
+
+        <div class="sidebar-header">
+            <h2>Add New Error</h2>
+            <p>Save and organize your debugging knowledge</p>
+        </div>
+
+        <ul class="tip-list">
+            <li>Copy exact error message</li>
+            <li>Add meaningful description</li>
+            <li>Write clear solution</li>
+            <li>Use relevant tags</li>
+        </ul>
+
+        <a href="{% url 'home' %}" class="btn btn-outline">
+            ← Back
+        </a>
+
+    </aside>
+
+    <!-- FORM -->
+    <main class="form-main">
+
+        <form method="POST" class="form-card">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="form-error">
+                    Please fix the errors below.
+                </div>
+            {% endif %}
+
+            <!-- SECTION: BASIC -->
+            <div class="form-section">
+                <h3>Basic Info</h3>
+
+                <div class="form-group">
+                    <label class="form-label">Error Title</label>
+                    {{ form.error_title }}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    {{ form.error_description }}
+                </div>
+            </div>
+
+            <!-- SECTION: SOLUTION -->
+            <div class="form-section">
+                <h3>Solution</h3>
+
+                <div class="form-group">
+                    <label class="form-label">Fix / Solution</label>
+                    {{ form.solution }}
+                </div>
+            </div>
+
+            <!-- SECTION: TAGS -->
+            <div class="form-section">
+                <h3>Tags</h3>
+
+                <div class="form-group">
+                    <label class="form-label">Tags</label>
+                    {{ form.tags }}
+                    <small class="text-muted">
+                        Example: django, api, react
+                    </small>
+                </div>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="form-actions">
+                <a href="{% url 'home' %}" class="btn btn-outline">Cancel</a>
+
+                <button type="submit" class="btn btn-primary">
+                    Save Error
+                </button>
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+{% endblock %}
