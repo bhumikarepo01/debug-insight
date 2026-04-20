@@ -42,15 +42,21 @@ class ErrorSolutionForm(forms.ModelForm):
         if commit:
             instance.save()
 
-            # 🔥 Handle tags properly
+        # ✅ Always reset tags (important for edit)
             tags_input = self.cleaned_data.get('tags', '')
-            tag_names = [tag.strip().lower() for tag in tags_input.split(',') if tag.strip()]
+
+            tag_names = [
+                tag.strip().lower()
+                for tag in tags_input.split(',')
+                if tag.strip()
+            ]
 
             tag_objects = []
             for name in tag_names:
-                tag, created = Tag.objects.get_or_create(name=name)
-                tag_objects.append(tag)
+                tag_obj, _ = Tag.objects.get_or_create(name=name)
+                tag_objects.append(tag_obj)
 
+            # 🔥 THIS LINE IS KEY (replaces clear + set combo)
             instance.tags.set(tag_objects)
 
         return instance

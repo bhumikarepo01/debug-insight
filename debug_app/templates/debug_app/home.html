@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<!-- HEADER -->
+
 <div class="dash-header">
     <div>
         <h1>Your Errors</h1>
@@ -16,7 +16,7 @@
     </a>
 </div>
 
-<!-- SEARCH -->
+
 <div class="search-section">
     <form method="GET" class="search-form">
         <input type="text" name="q"
@@ -30,7 +30,7 @@
     </form>
 </div>
 
-<!-- ACTIVE FILTER -->
+
 {% if request.GET.tag %}
 <div class="active-filter">
     Showing results for <strong>#{{ request.GET.tag }}</strong>
@@ -38,20 +38,20 @@
 </div>
 {% endif %}
 
-<!-- GRID -->
+
 {% if errors %}
 <div class="errors-grid">
 
 {% for error in errors %}
 <div class="error-card">
 
-    <!-- TITLE -->
+   
     <h3>{{ error.error_title }}</h3>
 
-    <!-- DESCRIPTION -->
+    
     <p>{{ error.error_description }}</p>
 
-    <!-- SOLUTION -->
+    
     {% if error.solution %}
     <div class="solution-box">
         <strong>Solution</strong>
@@ -59,7 +59,7 @@
     </div>
     {% endif %}
 
-    <!-- TAGS -->
+    
     <div class="tag-list">
         {% for tag in error.tags.all %}
             <a href="?tag={{ tag.name }}"
@@ -87,7 +87,7 @@
 
     </div>
 
-    <!-- EDIT MODE -->
+    
     <form method="POST" action="{% url 'edit_error' error.id %}" class="edit-mode">
         {% csrf_token %}
 
@@ -108,7 +108,7 @@
 
 {% else %}
 
-<!-- EMPTY STATE -->
+
 <div class="empty-state">
     <h3>No errors found</h3>
     <p>Start by adding your first debugging error</p>

@@ -60,7 +60,6 @@ def edit_error(request, id):
             form.save(user=request.user)  
             return redirect('home')
     else:
-        # Pre-fill tags as comma-separated string
         tags = ", ".join(tag.name for tag in error.tags.all())
 
         form = ErrorSolutionForm(
