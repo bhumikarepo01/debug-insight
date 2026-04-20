@@ -15,8 +15,7 @@ A Django-based web app to track and manage debugging errors and solutions.
 
 ## Setup
 
-'''bash
-git clone https://github.com/yourusername/debug-insight.git
-cd debug-insight
-pip install -r requirements.txt
-python manage.py runserver
+```bash
+git add README.md
+git commit -m "Fix README formatting"
+git push
